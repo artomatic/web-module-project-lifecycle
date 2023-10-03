@@ -8,7 +8,15 @@ export default class Todo extends React.Component {
 
   render() {
     return (
-      <p key={this.props.todo.id}>{this.props.todo.name}</p>
+      (!this.props.hide || (this.props.hide && !this.props.todo.completed)) &&
+      <span key={this.props.todo.id}>
+      <p  onClick={this.props.handleCompleted} id={this.props.todo.id}>
+
+        {this.props.todo.name} &nbsp; {this.props.todo.completed? '✔️' : ''}
+
+        </p>
+        
+      </span> 
     )
   }
 }

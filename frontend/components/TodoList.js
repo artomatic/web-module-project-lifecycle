@@ -14,7 +14,7 @@ export default class TodoList extends React.Component {
         <div>
       {
       this.props.todos.length !== 0? ( this.props.todos.data.map (todo => (
-        <Todo key={todo.id} todo = {todo}/>
+        <Todo key={todo.id} todo = {todo} handleCompleted={this.props.handleCompleted} hide={this.props.hide}/>
       )))
       :
       <p>No Todos Available</p>

@@ -14,7 +14,7 @@ export default class Form extends React.Component {
         <br/>
         <br/>
 
-        <button>Hide Completed</button>
+        <button onClick={this.props.handleClear}>{this.props.hide? 'Show Completed':'Hide Completed'}</button>
 
       </form>
     )

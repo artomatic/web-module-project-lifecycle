@@ -11,22 +11,54 @@ export default class App extends React.Component {
     super()
     this.state = {
       todoData: [],
-      newTodo: ''
+      hide: false
+
     }
   }
 
-  onChange = (event) => {
+  handleClear = (event) => {
+    event.preventDefault()
+    this.setState( {hide: !this.state.hide})
+  }
+
+  handleCheckmark = (event) => {
+    
+    const id = event.target.id
+    axios.patch(URL + '/' + id)
+      .then (response => {
+        console.log(response)
+        // window.location.reload()
+      })
+      .catch (error => {
+        console.log(error)
+      })
 
   }
 
   onSubmit = (event) => {
     event.preventDefault()
-    console.log(event)
-    this.setState( {todoData})
+    const data = {
+      name: event.target[0].value,
+      completed: false
+    }
+    axios.post(URL, data)
+      .then (response => {
+        console.log(response.data.message)
+      })
+      .catch (error => {
+        console.log(error)
+      })
+      
   }
 
   componentDidMount() {
-    console.log('componentDidMount')
+    axios.get(URL)
+      .then (response => {
+        this.setState({todoData: response.data})
+      })
+  }
+
+  componentDidUpdate() {
     axios.get(URL)
       .then (response => {
         this.setState({todoData: response.data})
@@ -37,8 +69,17 @@ export default class App extends React.Component {
     
     return (
       <div>
-      <TodoList todos = {this.state.todoData}/>
-      <Form todos = {this.state.todoData} onSubmit = {this.onSubmit}/>
+      <TodoList 
+      todos = {this.state.todoData} 
+      handleCompleted={this.handleCheckmark}
+      hide = {this.state.hide}/>
+
+      <Form 
+      todos = {this.state.todoData} 
+      onSubmit = {this.onSubmit} 
+      handleClear = {this.handleClear}
+      hide = {this.state.hide} />
+
       </div>
     )
   }
